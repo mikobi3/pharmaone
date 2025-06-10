@@ -13,16 +13,21 @@ WORKDIR /app
 # copie les fichiers Maven dans le contenuer
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
+RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline
 # copie les fichiers necessaires pour que Maven télécharge les dépendances meme sans internet dans le conteneur
+
+# compile le projet sans lancer les tests
+RUN ./mvnw package -DskipTests
+# crée le fichier .jar final.
 
 # copie le code source
 COPY src ./src
 # place le code dans le conteneur Docker
 
-# compile le projet sans lancer les tests
-RUN ./mvnw package -DskipTests
-# crée le fichier .jar final.
+
+
+EXPOSE 8080
 
 # Démarre l'application avec le jar généré
 CMD ["java","-jar","target/pharmapro-0.0.1-SNAPSHOT.jar"]
