@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LabroPharma</title>
+    <link rel="stylesheet" th:href="@{/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/scrollreveal@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Tailwind CSS est supposé déjà inclus -->
+</head>
+<body class="bg-gradient-to-r from-green-300 via-blue-950 to-blue-950 text-white">
+
+<div class="min-h-screen px-6 py-3 flex flex-col gap-10 md:px-10" x-data="{ open: false }">
+
+    <!-- HEADER -->
+    <header class="flex justify-between items-center">
+        <div class="md:flex md:items-center md:gap-12">
+            <a class="block text-teal-600" href="#">
+                <span class="sr-only">Accueil</span>
+                <img class="h-10" th:src="@{/img/logo_large.png}">
+            </a>
+        </div>
+
+        <!-- Menu desktop -->
+        <ul class="hidden lg:flex lg:items-center lg:gap-9 lg:text-lg lg:font-medium">
+            <li><a href="/accueil">Accueil</a></li>
+            <li><a href="/aproposall">Apropos</a></li>
+            <li><a href="/allproducts">Produits</a></li>
+            <li><a href="/artiblog">Blog</a></li>
+            <li><a href="/contactall">Contact</a></li>
+            <li>
+                <a href="/suitep">
+                    <i class="fa-solid fa-cart-plus"></i>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Bouton admin -->
+        <div class="hidden md:flex justify-evenly items-center gap-2 rounded-full border shadow-md h-10 w-20 py-1.25 pr-1.25 pl-2">
+            <i class="fa-solid fa-bars"></i>
+            <a href="/login">
+                <button class="bg-pink-700 text-white rounded-full text-center w-7 h-7 text-[10px] font-semibold">A</button>
+            </a>
+        </div>
+
+        <!-- Icône menu mobile -->
+        <div class="lg:hidden">
+            <i class="fa-solid fa-bars fa-2x cursor-pointer" @click="open = !open"></i>
+        </div>
+    </header>
+
+    <!-- Menu mobile (affiché uniquement sur petit écran) -->
+    <ul x-show="open"
+        x-transition
+        @click.away="open = false"
+        class="flex flex-col items-start gap-4 text-lg font-medium mt-4 lg:hidden bg-blue-900 p-4 rounded-md shadow-md">
+        <li><a href="/accueil">Accueil</a></li>
+        <li><a href="/aproposall">Apropos</a></li>
+        <li><a href="/allproducts">Produits</a></li>
+        <li><a href="/artiblog">Blog</a></li>
+        <li><a href="/contactall">Contact</a></li>
+        <li><a href="/suitep"><i class="fa-solid fa-cart-plus"></i></a></li>
+    </ul>
+
+    <!-- MAIN -->
+    <main class="lg:flex">
+        <div class="flex items-center justify-center lg:flex-1 lg:order-2 lg:justify-end image-transform">
+            <img th:src="@{/img/doctor.png}" alt="doctor"
+                 class="outline outline-white shadow-2xl shadow-black lg:h-[600px] lg:w-[600px] lg:rounded-full"/>
+        </div>
+        <div class="space-y-6 mt-16 lg:flex-1 lg:order-1 lg:mt-32 text-transform">
+            <div class="text-5xl font-bold leading-tight">
+                <h1>Rétrouvez votre meilleure santé avec <span class="text-white">Labpro Pharma</span></h1>
+            </div>
+            <p class="text-1.8xl">
+                La qualité et l'excellence dans la fabrication et
+                la livraison des produits pharmaceutiques, nous définissent.
+                Nos produits sont fabriqués dans les meilleures laboratoires
+                du monde pour résoudre vos problèmes de santé.
+            </p>
+            <form action="/allproducts" method="get" class="flex flex-col gap-2 md:flex-row md:gap-0">
+                <input type="text" name="query" placeholder="Cherchez votre produit"
+                       class="max-md:rounded-md md:rounded-l-md rounded-l-md px-4 py-3 text-black">
+                <button type="submit"
+                        class="bg-pink-700 px-4 py-3 max-md:rounded-r-md rounded-md font-medium whitespace-nowrap">
+                    Trouvez votre produit
+                </button>
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

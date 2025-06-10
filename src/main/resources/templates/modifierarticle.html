@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Impacty</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<h1>Bienvenue sur notre page de modification</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mix-auto rounded border p-4 m-4">
+            <h2 class="text-center mb-5">Nouveau Article</h2>
+
+            <form method="post" enctype="multipart/form-data" th:object="${articlesDto}">
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">ID</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control-plaintext" th:value="${articles.id}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">titre de l'Article</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${articlesDto.titre_art}">
+                        <p th:if="${#fields.hasErrors('titre_art')}" th:errorclass="text-danger"
+                           th:errors="${articlesDto.titre_art}">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">date de creation l'Article</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${articlesDto.datecreation_art}">
+                        <p th:if="${#fields.hasErrors('datecreation_art')}" th:errorclass="text-danger"
+                           th:errors="${articlesDto.datecreation_art}">
+                        </p>
+                    </div>
+                </div>
+
+                <!--contenu de l'article-->
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Contenu Article</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" th:field="${articlesDto.contenu_art}"></textarea>
+                        <p th:if="${#fields.hasErrors('contenu_art')}" th:errorclass="text-danger"
+                           th:errors="${articlesDto.contenu_art}">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">petite description articles</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" th:field="${articlesDto.petit_resume_art}"></textarea>
+                        <p th:if="${#fields.hasErrors('petit_resume_art')}" th:errorclass="text-danger"
+                           th:errors="${articlesDto.petit_resume_art}">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="offset-sm-4 col-sm-8">
+                        <img th:src="@{'/images/' + ${articles.imageUrl_articles}}"
+                             alt="..." width="150">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label" >Image de l'Article</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="file" th:field="${articlesDto.imageUrl_art}">
+                        <p th:if="${#fields.hasErrors('imageUrl_art')}" th:errorclass="text-danger"
+                           th:errors="${articlesDto.imageUrl_art}">
+                        </p>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="offset-sm-4 col-sm-4 d-grid">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div class="col-sm-4 d-grid">
+                        <a class="btn btn-outline-primary" href="/updatearticle" role="button">Cancel</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

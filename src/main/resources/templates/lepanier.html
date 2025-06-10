@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/main.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+
+
+    <main class="container mx-auto py-8">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Votre Panier</h1>
+
+        <div th:if="${cartItems == null or cartItems.isEmpty()}">
+            <p class="text-gray-600">Votre panier est vide.</p>
+        </div>
+        <div th:unless="${cartItems == null or cartItems.isEmpty()}">
+            <ul class="space-y-4">
+                <li th:each="item : ${cartItems}" class="bg-white shadow rounded-md p-4 flex items-center justify-between"
+                    th:with="product=${products.?[id == item.productId].get(0)}">
+                    <div class="flex items-center">
+                        <img th:if="${product?.imageUrlProduct}" th:src="${product.imageUrlProduct}" alt="Image du produit" width="80" class="mr-4">
+                        <div th:if="${product}">
+                            <h3 th:text="${product.nomProduct}" class="font-semibold">Nom du Produit</h3>
+                            <p class="text-gray-600" th:text="${product.descriptionProduct}"></p>
+                            <p class="text-green-500">Prix unitaire: <span th:text="${#numbers.formatDecimal(product.prixProduct, 1, 2)}"></span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <form th:action="@{/mettreAJourPanier}" method="post" class="flex items-center">
+                            <label for="quantity-update-${item.productId}" class="mr-2">Quantité:</label>
+                            <input type="number" id="quantity-update-${item.productId}" name="quantity" th:value="${item.quantity}" min="1" class="w-16 border rounded py-1 px-2 text-gray-700">
+                            <input type="hidden" name="productId" th:value="${item.productId}">
+                            <button type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded ml-2 text-sm">
+                                Mettre à jour
+                            </button>
+                        </form>
+                        <form th:action="@{/supprimerDuPanier}" method="post">
+                            <input type="hidden" name="productId" th:value="${item.productId}">
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+                    <p class="font-semibold" th:if="${product}">Sous-total: <span th:text="${#numbers.formatDecimal(product.prixProduct * item.quantity, 1, 2)}"></span></p>
+                </li>
+            </ul>
+            <div class="mt-6 text-right">
+                <p class="text-lg font-semibold">Total: <span th:text="${#numbers.formatDecimal(total, 1, 2)}" class="text-green-600"></span></p>
+                <a th:href="@{/commander}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full mt-4 inline-block">Passer à la commande</a>
+            </div>
+        </div>
+    </main>
+
+
+
+</body>
+</html>

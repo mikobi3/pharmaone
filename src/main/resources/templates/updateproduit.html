@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/main.css}"/>
+    <title>Labpro Pharma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<h1>Bienvenue sur la page de modification produit</h1>
+
+<div class="container">
+
+    <table class="min-w-full divide-y divide-gray-200 mt-6">
+        <thead class="bg-gray-100">
+        <tr>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Nom</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Catégorie</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Description</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Prix</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Faux Prix</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Stock</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Image</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
+        </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+        <tr th:each="product : ${productisadmin}">
+            <td class="px-4 py-2 text-sm text-gray-800" th:text="${product.id}"></td>
+            <td class="px-4 py-2 text-sm text-gray-800" th:text="${product.nomProduct}"></td>
+            <td class="px-4 py-2 text-sm text-gray-800" th:text="${product.categorieProduct}"></td>
+            <td class="px-4 py-2 text-sm text-gray-800" th:text="${product.descriptionProduct}"></td>
+            <td class="px-4 py-2 text-sm text-gray-800" th:text="${product.prixProduct} + '$'"></td>
+            <td class="px-4 py-2 text-sm text-gray-800" th:text="${product.fauxPrixProduct} + '$'"></td>
+            <td class="px-4 py-2 text-sm text-gray-800" th:text="${product.quantiteEnStockProduct}"></td>
+            <td class="px-4 py-2 text-sm text-gray-800">
+                <img th:src="@{${product.imageUrlProduct}}" alt="Image" class="w-16 h-16 object-cover rounded">
+            </td>
+            <td class="px-4 py-2 text-sm text-gray-800 space-x-2">
+                <a th:href="@{/editprod(id=${product.id})}"
+                   class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Modifier</a>
+                <a th:href="@{/deleteprod(id=${product.id})}"
+                   class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                   onclick="return confirm('Voulez-vous vraiment supprimer ce produit ?');">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

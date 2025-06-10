@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LabPro Pharma</title>
+    <link rel="stylesheet" th:href="@{/main.css}"/>
+</head>
+<body>
+<h1>Bienvenue sur la page de mis à jour notre blog</h1>
+
+
+
+<table class="min-w-full divide-y divide-gray-200 mt-6">
+    <thead class="bg-gray-100">
+    <tr>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Titre</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Petite Description</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Contenu</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Date de Création</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Image</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
+    </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+    <tr th:each="article : ${adminarticles}">
+        <td class="px-4 py-2 text-sm text-gray-800" th:text="${article.id}"></td>
+        <td class="px-4 py-2 text-sm text-gray-800" th:text="${article.titre_articles}"></td>
+        <td class="px-4 py-2 text-sm text-gray-800" th:text="${article.petite_description_articles}"></td>
+        <td class="px-4 py-2 text-sm text-gray-800" th:text="${article.contenu_articles}"></td>
+        <td class="px-4 py-2 text-sm text-gray-800" th:text="${article.date_creation_articles}"></td>
+        <td class="px-4 py-2 text-sm text-gray-800">
+            <img th:src="@{${article.imageUrl_articles}}" alt="Image" class="w-16 h-16 object-cover rounded" />
+        </td>
+        <td class="px-4 py-2 text-sm text-gray-800 space-x-2">
+            <a th:href="@{/editarticle(id=${article.id})}"
+               class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Modifier</a>
+            <a th:href="@{/deletearti(id=${article.id})}"
+               class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');">Supprimer</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+
+</body>
+</html>
