@@ -6,7 +6,7 @@ FROM eclipse-temurin:23-jdk
 
 
 # Définit le dossier de travail dans le conteneur
-WORKDIR/app
+WORKDIR /app
 # Cela signifie que toutes les prochaines commandes s'exécutent dans /app
 
 
