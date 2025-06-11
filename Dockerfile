@@ -4,9 +4,11 @@
 FROM node:18 AS tailwind-builder
 
 WORKDIR /app
-COPY src/main/frontend/ ./src/main/frontend/
+COPY src/main/frontend/ ./frontend/
 
-WORKDIR /app/src/main/frontend
+WORKDIR /app/frontend
+
+ENV NODE_ENV=development
 
 RUN npm install
 RUN chmod +x ./node_modules/ ./bin/tailwindcss
