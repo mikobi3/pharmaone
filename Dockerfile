@@ -4,9 +4,8 @@
 FROM node:18 AS tailwind-builder
 
 WORKDIR /app
-COPY src/main/frontend/ ./frontend/
+COPY src/main/frontend/ ./
 
-WORKDIR /app/frontend
 
 ENV NODE_ENV=development
 
@@ -16,22 +15,21 @@ RUN npm run build
 
 
 
-FROM eclipse-temurin:17 AS builder
+FROM eclipse-temurin:17-jdk AS app-builder
 
 WORKDIR /app
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw && ./mvnw dependency:go-offline
+COPY . .
 
-COPY src ./src
 
 COPY --from=tailwind-builder /app/src/main/resources/static/main.css ./src/main/resources/static/main.css
 
+RUN chmod +x mvnw
 
 RUN ./mvnw clean package -DskipTests
 
 # Choisit une image de base avec java 23 préinstallé
 FROM eclipse-temurin:23-jdk
+
 WORKDIR /app
 
 COPY --from=builder /app/target/pharmapro-0.0.1-SNAPSHOT.jar app.jar
