@@ -5,7 +5,7 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 
-COPY frontend/. ./
+COPY frontend/. ./frontend/
 RUN chmod +x ./node_modules/.bin/tailwindcss
 RUN npm run build
 
