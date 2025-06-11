@@ -27,7 +27,8 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>23</java.version>
+		<start-class>code.alba.pharmapro.PharmaproApplication</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -85,6 +86,7 @@
 		</dependency>
 	</dependencies>
 
+
 	<build>
 		<plugins>
 			<plugin>
@@ -93,5 +95,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

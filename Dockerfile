@@ -1,4 +1,15 @@
 
+FROM node:18 as node-builder
+WORKDIR /app
+COPY frontend/ ./frontend/
+RUN cd frontend && npm install && npm run build
+
+# etape java
+FROM eclipse-temurin:23-jdk-alpine
+WORKDIR /app
+COPY --from=node-builder /app/frontend/../src/main/resources/static/css/style.css ./src/main/resources/static/css/style.css
+COPY . .
+RUN ./mvnw clean package -DskipTests
 
 # Choisit une image de base avec java 23 préinstallé
 FROM eclipse-temurin:23-jdk
@@ -19,6 +30,7 @@ RUN ./mvnw dependency:go-offline
 
 # compile le projet sans lancer les tests
 RUN ./mvnw package -DskipTests
+ENTRYPOINT ["java","-jar","target/pharmapro-0.0.1-SNAPSHOT.jar"]
 # crée le fichier .jar final.
 
 # copie le code source
