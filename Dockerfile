@@ -35,7 +35,7 @@ FROM eclipse-temurin:23-jdk
 # Définit le dossier de travail dans le conteneur
 WORKDIR /app
 
-COPY --from=builder /app/target/pharmapro-0.0.1-SNAPSHOT.jar
+COPY --from=builder /app/target/pharmapro-0.0.1-SNAPSHOT.jar app.jar
 
 # Cela signifie que toutes les prochaines commandes s'exécutent dans /app
 EXPOSE 8080
