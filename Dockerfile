@@ -1,10 +1,10 @@
 
 FROM node:18 AS tailwind-builder
 
-WORKDIR /app
+WORKDIR /frontend
 
-COPY frontend/ ./frontend/
-WORKDIR /app/frontend
+COPY src/main/frontend/ ./
+
 
 RUN npm install && npm run build
 
@@ -16,13 +16,12 @@ WORKDIR /app
 # copie les fichiers Maven dans le contenuer
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN chmod +x mvnw
-RUN ./mvnw dependency:go-offline
+RUN chmod +x mvnw && ./mvnw dependency:go-offline
 
 # copie de code source
 COPY src ./src
 
-COPY --from=tailwind-builder /app/frontend/build/style.css  ./src/main/resources/static/css/style.css
+COPY --from=tailwind-builder /frontend/styles.css  ./src/main/resources/static/css/style.css
 
 
 RUN ./mvnw clean package -DskipTests
