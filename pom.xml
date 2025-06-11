@@ -89,9 +89,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-                <properties>
+                <configuration>
                     <mainClass>code.alba.pharmapro.PharmaproApplication</mainClass>
-                </properties>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>
