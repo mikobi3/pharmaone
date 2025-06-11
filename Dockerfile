@@ -1,11 +1,16 @@
 
-FROM node: 18 AS frontend-builder
+FROM node:18 AS tailwind-builder
+
+WORKDIR /app
+
+COPY frontend/ ./frontend/
 WORKDIR /app/frontend
-COPY frontend/ .
+
 RUN npm install && npm run build
 
 # etape java
-FROM eclipse-temurin:23-jdk AS backend-builder
+FROM eclipse-temurin:23-jdk AS builder
+
 WORKDIR /app
 
 # copie les fichiers Maven dans le contenuer
@@ -17,7 +22,7 @@ RUN ./mvnw dependency:go-offline
 # copie de code source
 COPY src ./src
 
-COPY --from=frontend-builder /app/frontend/../src/main/resources/static/
+COPY --from=tailwind-builder /app/frontend/build/style.css  ./src/main/resources/static/css/style.css
 
 
 RUN ./mvnw clean package -DskipTests
@@ -29,8 +34,9 @@ FROM eclipse-temurin:23-jdk
 
 # Définit le dossier de travail dans le conteneur
 WORKDIR /app
-COPY --from=backend-builder /app/target/pharmapro-0.0.1-SNAPSHOT.jar
-app.jar
+
+COPY --from=builder /app/target/pharmapro-0.0.1-SNAPSHOT.jar
+
 # Cela signifie que toutes les prochaines commandes s'exécutent dans /app
 EXPOSE 8080
 
