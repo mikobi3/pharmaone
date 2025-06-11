@@ -9,6 +9,7 @@ COPY src/main/frontend/ ./src/main/frontend/
 WORKDIR /app/src/main/frontend
 
 RUN npm install
+RUN chmod +x ./node_modules/ ./bin/tailwindcss
 RUN npm run build
 
 
