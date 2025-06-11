@@ -1,6 +1,12 @@
 
-FROM node:18 AS tailwind-builder
 
+FROM node:19
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
+
+FROM node:19 AS tailwind-builder
 WORKDIR /frontend
 
 COPY src/main/frontend/ ./
