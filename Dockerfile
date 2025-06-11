@@ -1,41 +1,35 @@
-
-
-
+# Étape 1 : Build Tailwind
 FROM node:18 AS tailwind-builder
 
-WORKDIR /app
-COPY src/main/frontend/ ./
-
-
-ENV NODE_ENV=development
-
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
 RUN npm install
-RUN chmod +x ./node_modules/ ./bin/tailwindcss
+
+COPY frontend/. ./
+RUN chmod +x ./node_modules/.bin/tailwindcss
 RUN npm run build
 
-
-
-FROM eclipse-temurin:17-jdk AS app-builder
+# Étape 2 : Build Spring Boot app
+FROM maven:3.9.6-eclipse-temurin-21 AS maven-builder
 
 WORKDIR /app
-COPY . .
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN chmod +x mvnw && ./mvnw dependency:go-offline
 
-
-COPY --from=tailwind-builder /app/src/main/resources/static/main.css ./src/main/resources/static/main.css
-
-RUN chmod +x mvnw
+COPY src ./src
+COPY --from=tailwind-builder /app/frontend/src/main/resources/static/main.css ./src/main/resources/static/main.css
 
 RUN ./mvnw clean package -DskipTests
 
-# Choisit une image de base avec java 23 préinstallé
-FROM eclipse-temurin:23-jdk
+# Étape 3 : Image finale légère
+FROM eclipse-temurin:21-jdk-alpine
 
 WORKDIR /app
-
-COPY --from=builder /app/target/pharmapro-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=maven-builder /app/target/pharmapro-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-ENTRYPOINT ["java","-jar","app.jar"]
 
 
