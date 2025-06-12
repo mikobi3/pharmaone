@@ -20,6 +20,7 @@ RUN ./mvnw dependency:go-offline
 
 COPY src ./src
 
+RUN mkdir -p src/main/resources/static
 COPY --from=tailwind-builder /frontend/../src/main/resources/static/main.css ./src/main/resources/static/main.css
 RUN ./mvnw clean package -DskipTests
 
