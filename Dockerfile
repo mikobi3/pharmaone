@@ -5,9 +5,9 @@ WORKDIR /app/src/main/frontend
 
 # Copier les fichiers frontend
 COPY src/main/frontend/package.json .
-COPY src/main/frontend/package-lock.json .  # si présent
+COPY src/main/frontend/package-lock.json .
 COPY src/main/frontend/styles.css .
-COPY src/main/frontend/tailwind.config.js . # si présent
+COPY src/main/frontend/tailwind.config.js .
 
 # Installer Tailwind
 RUN npm install
